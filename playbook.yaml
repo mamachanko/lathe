@@ -1,0 +1,7 @@
+---
+- hosts: lathe
+  tasks:
+    - name: clone dotfiles
+      git: repo=github.com/mamachanko/dotfiles.git
+           dest=~/dotfiles
+
