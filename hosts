@@ -1,0 +1,2 @@
+[lathe]
+192.168.10.10 ansible_ssh_port=2222 ansible_ssh_user=vagrant ansible_ssh_private_key_file=~/.ssh/id_rsa
