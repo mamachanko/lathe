@@ -18,6 +18,8 @@
 
   roles:
     - oh-my-zsh
+    - role: gae
+      gae_language: go
 
   tasks:
     - name: install packages

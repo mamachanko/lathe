@@ -1,2 +1,4 @@
 - name: oh-my-zsh
-  src: mashimom.oh-my-zsh
+  src: https://github.com/mamachanko/ohmyzsh_plbk/
+- name: gae
+  src: maciejzasada.gae
