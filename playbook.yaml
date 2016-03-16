@@ -1,7 +1,59 @@
 ---
 - hosts: lathe
+
+  vars:
+    - packages:
+      - tmux
+      - vim
+      - ack-grep
+      - jq
+      - httpie
+      - stow
+
+  pre_tasks:
+    - name: update apt cache
+      apt: update_cache=yes
+           cache_valid_time=3600
+      become: yes
+
+  roles:
+    - oh-my-zsh
+
   tasks:
+    - name: install packages
+      apt: name={{ item }}
+           state=present
+      become: yes
+      with_items: packages
+
+    - name: ensure github.com is a known host
+      lineinfile: dest=~/.ssh/known_hosts
+                  create=yes
+                  state=present
+                  line="{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
+                  regexp="^github\\.com"
+
     - name: clone dotfiles
       git: repo=github.com:mamachanko/dotfiles.git
            dest=~/dotfiles
+           force=yes
            accept_hostkey=yes
+
+    - name: delete existing .zshrc
+      file: name=~/.zshrc
+            state=absent
+
+    - name: install dotfiles
+      command: stow . chdir=~/dotfiles
+
+    - name: install PIP
+      become: yes
+      shell: curl -L https://bootstrap.pypa.io/get-pip.py | python
+
+    - name: install virtualenv & wrapper
+      become: yes
+      pip: name={{ item }}
+           state=present
+      with_items:
+        - virtualenv
+        - virtualenvwrapper
