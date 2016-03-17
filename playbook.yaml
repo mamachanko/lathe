@@ -9,6 +9,11 @@
       - jq
       - httpie
       - stow
+    - personalrepositories:
+      - dotfiles
+      - thugletics
+    - gae_language: go
+    - elao_motd: "A lathe is the only tool that can replicate itself."
 
   pre_tasks:
     - name: update apt cache
@@ -18,12 +23,12 @@
 
   roles:
     - oh-my-zsh
-    - role: gae
-      gae_language: go
+    - role: motd
+      become: yes
 
   tasks:
     - name: install packages
-      apt: name={{ item }}
+      apt: name="{{ item }}"
            state=present
       become: yes
       with_items: packages
@@ -35,11 +40,12 @@
                   line="{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
                   regexp="^github\\.com"
 
-    - name: clone dotfiles
-      git: repo=github.com:mamachanko/dotfiles.git
-           dest=~/dotfiles
+    - name: clone personal git repositories
+      git: repo="github.com:mamachanko/{{ item }}.git"
+           dest="~/{{ item }}"
            force=yes
            accept_hostkey=yes
+      with_items: personalrepositories
 
     - name: delete existing .zshrc
       file: name=~/.zshrc
@@ -48,14 +54,37 @@
     - name: install dotfiles
       command: stow . chdir=~/dotfiles
 
+    - name: download PIP installer
+      get_url: url=https://bootstrap.pypa.io/get-pip.py
+               dest=/tmp/get-pip.py
+
     - name: install PIP
       become: yes
-      shell: curl -L https://bootstrap.pypa.io/get-pip.py | python
+      command: python /tmp/get-pip.py
 
     - name: install virtualenv & wrapper
       become: yes
-      pip: name={{ item }}
+      pip: name="{{ item }}"
            state=present
       with_items:
         - virtualenv
         - virtualenvwrapper
+
+    - name: enable bash history complete for arrow keys
+      lineinfile: dest=~/.inputrc
+                  line="{{ item }}"
+                  state=present
+                  create=yes
+      with_items:
+        - '"\e[A":history-search-backward'
+        - '"\e[B":history-search-forward'
+
+    - name: download Go App SDK
+      get_url: url=https://storage.googleapis.com/appengine-sdks/featured/go_appengine_sdk_linux_amd64-1.9.34.zip
+               dest=/tmp/go_appengine.zip
+
+    - name: unzip Go App Engine SDK
+      unarchive: src=/tmp/go_appengine.zip
+                 dest=~/
+                 creates=~/go_appengine
+                 copy=no

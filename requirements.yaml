@@ -1,4 +1,5 @@
 - name: oh-my-zsh
   src: https://github.com/mamachanko/ohmyzsh_plbk/
-- name: gae
-  src: maciejzasada.gae
+- name: motd
+  src: elao.motd
+  version: 2.0
