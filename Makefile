@@ -6,7 +6,7 @@ lathe:
 		vagrant destroy --force
 		vagrant box update
 		vagrant up
-		ansible-galaxy list | awk -F'[, ]' '{print $2}' | xargs ansible-galaxy remove
+		rm -rf .ansible
 		ansible-galaxy install -r requirements.yaml
 		ansible-playbook playbook.yaml --syntax-check
 		ansible-playbook playbook.yaml
