@@ -1,7 +1,6 @@
 .PHONY: lathe provision check
 
 lathe:
-		ansible-playbook playbook.yaml --syntax-check
 		ssh-add
 		vagrant halt
 		vagrant destroy --force
@@ -9,6 +8,7 @@ lathe:
 		vagrant up
 		ansible-galaxy list | awk -F'[, ]' '{print $2}' | xargs ansible-galaxy remove
 		ansible-galaxy install -r requirements.yaml
+		ansible-playbook playbook.yaml --syntax-check
 		ansible-playbook playbook.yaml
 		./check.sh
 
