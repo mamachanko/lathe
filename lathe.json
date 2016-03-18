@@ -14,6 +14,10 @@
   },
   "push": {
     "name": "{{ user `atlas_username` }}/{{ user `atlas_buildname` }}",
+    "exclude": [
+        "iso/*",
+        "packer_cache/*"
+    ],
     "vcs": false
   },
   "provisioners": [
