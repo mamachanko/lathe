@@ -16,5 +16,6 @@ provision: check
 		ansible-playbook playbook.yaml
 
 check:
+		ansible-galaxy install -r requirements.yaml
 		ansible-playbook playbook.yaml --syntax-check
 		./check.sh
