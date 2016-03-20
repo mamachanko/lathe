@@ -88,3 +88,15 @@
                  dest=~/
                  creates=~/go_appengine
                  copy=no
+
+    - name: clear command history
+      command: echo "" > ~/.zsh_history
+
+    - name: zero out disk
+      become: yes
+      ignore_errors: yes
+      command: dd if=/dev/zero of=/EMPTY bs=1M
+ 
+    - name: remove waste
+      become: yes
+      command: rm -f /EMPTY
