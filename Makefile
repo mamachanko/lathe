@@ -1,4 +1,4 @@
-.PHONY: lathe provision check
+.PHONY: lathe provision package
 
 lathe:
 		ssh-add
@@ -12,10 +12,8 @@ lathe:
 		ansible-playbook playbook.yaml
 		./check.sh
 
-provision: check
+provision:
 		ansible-playbook playbook.yaml
 
-check:
-		ansible-galaxy install -r requirements.yaml
-		ansible-playbook playbook.yaml --syntax-check
-		./check.sh
+package: lathe
+		vagrant package --output 'mamachanko/lathe'
