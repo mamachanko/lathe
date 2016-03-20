@@ -18,6 +18,6 @@ provision:
 		ansible-playbook playbook.yaml
 
 package: lathe
-        rm -rf _build
+		rm -rf _build
 		mkdir _build
 		vagrant package --output ./_build/lathe.box
