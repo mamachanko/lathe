@@ -13,7 +13,11 @@ lathe:
 		./check.sh
 
 provision:
+		ansible-galaxy install -r requirements.yaml
+		ansible-playbook playbook.yaml --syntax-check
 		ansible-playbook playbook.yaml
 
 package: lathe
-		vagrant package --output 'mamachanko/lathe'
+        rm -rf _build
+		mkdir _build
+		vagrant package --output ./_build/lathe.box
