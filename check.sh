@@ -3,7 +3,7 @@
 ping -c1 -t1 192.168.10.10 &> /dev/null
 if [ $? -ne 0 ]; then
     echo "lathe does not appear to be up. consider 'vagrant up'."
-    exit 1
+    exit 0
 fi
 
 ping -c1 -t1 lathe &> /dev/null
