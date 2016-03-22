@@ -1,4 +1,4 @@
 .vagrant
 .ansible
 *.retry
-_build
+build/*
