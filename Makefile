@@ -36,6 +36,7 @@ test:
 
 bump:
 		bumpversion --commit --tag major
+		git push origin master
 
 release:
 		bin/release ${BOX_PATH}
