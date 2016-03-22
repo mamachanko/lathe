@@ -1,5 +1,7 @@
 #! /bin/bash
 
+set -e
+
 ATLAS_TOKEN=$(echo $ATLAS_TOKEN)
 ATLAS_USER=$(echo $ATLAS_USER)
 BOX_PATH=$1
@@ -40,6 +42,7 @@ update_locally() {
 }
 
 main() {
+        test -e $BOX_PATH
 		create_version
 		push_box
 		release_version

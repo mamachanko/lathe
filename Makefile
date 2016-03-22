@@ -3,7 +3,9 @@ BUILD_DIR=./build
 BOX_NAME=lathe-${LATHE_VERSION}.box
 BOX_PATH=${BUILD_DIR}/${BOX_NAME}
 
-.PHONY: lathe provision package box test bump
+.PHONY: all lathe provision package box test bump drop
+
+all: lathe bump release
 
 lathe: box provision test package 
 		vagrant up
@@ -13,10 +15,13 @@ lathe: box provision test package
 box:
 		figlet -f script creating box
 		ssh-add
-		vagrant halt
-		vagrant destroy --force
+		make drop
 		vagrant box update
 		vagrant up
+
+drop:
+		vagrant halt
+		vagrant destroy --force
 
 provision:
 		figlet -f script provisioning box
