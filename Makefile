@@ -5,9 +5,9 @@ BOX_PATH=${BUILD_DIR}/${BOX_NAME}
 
 .PHONY: all lathe provision package box test bump drop
 
-all: lathe bump release
+all: lathe release
 
-lathe: box provision test package 
+lathe: box provision bump package 
 		vagrant up
 		bin/check
 		figlet -f script lathe done
@@ -35,9 +35,6 @@ package:
 		figlet -f script packaging box
 		figlet -f script ${BOX_NAME}
 		vagrant package --output ${BOX_PATH}
-
-test:
-		bin/test ${BOX_PATH}
 
 bump:
 		bumpversion --commit --tag major
