@@ -35,7 +35,7 @@ test:
 		bin/test ${BOX_PATH}
 
 bump:
-		bumpversion --dry-run part major
+		bumpversion --commit --tag major
 
 release:
 		bin/release ${BOX_PATH}
