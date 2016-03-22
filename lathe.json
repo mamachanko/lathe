@@ -1,8 +1,5 @@
 {
   "variables": {
-    "atlas_username": "mamachanko",
-    "atlas_buildname": "lathe",
-    "version": "0.0.1",
     "ssh_username": "vagrant",
     "ssh_password": "vagrant",
     "ssh_port": "22",
@@ -11,14 +8,6 @@
     "vm_name": "lathe",
     "iso_checksum_type": "SHA256",
     "iso_checksum": "86aa35a986eba6e5ad30e3d486d57efe6803ae7ea4859b0216953e9e62871131"
-  },
-  "push": {
-    "name": "{{ user `atlas_username` }}/{{ user `atlas_buildname` }}",
-    "exclude": [
-        "iso/*",
-        "packer_cache/*"
-    ],
-    "vcs": false
   },
   "provisioners": [
     {
@@ -66,7 +55,7 @@
       "headless": true,
       "http_directory": "http",
       "iso_urls": [
-        "iso/ubuntu-15.10-server-amd64.iso",
+        "/Users/max/iso/ubuntu-15.10-server-amd64.iso",
         "http://releases.ubuntu.com/wily/ubuntu-15.10-server-amd64.iso"
       ],
       "iso_checksum_type": "{{ user `iso_checksum_type` }}",
@@ -99,21 +88,9 @@
     [
       {
         "type": "vagrant",
-        "keep_input_artifact": true
-      },
-      {
-        "type": "atlas",
-        "only": [
-          "virtualbox-iso"
-        ],
-        "artifact": "{{ user `atlas_username` }}/{{ user `atlas_buildname` }}",
-        "artifact_type": "vagrant.box",
-        "metadata": {
-          "provider": "virtualbox",
-          "version": "{{ user `version` }}"
-        }
+        "keep_input_artifact": true,
+        "output": "builds/lathe.box"
       }
-      
     ]
   ]
 }
