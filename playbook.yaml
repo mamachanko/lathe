@@ -88,3 +88,35 @@
                  dest=~/
                  creates=~/go_appengine
                  copy=no
+
+    - name: download Google Cloud SDK
+      get_url: url="https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-102.0.0-linux-x86_64.tar.gz"
+               dest="/tmp/google-cloud-sdk.tar.gz"
+               force=no
+               checksum="sha1:5c6cb7db4257c9597636f540d9f923f001aab959"
+
+    - name: unarchive Google Cloud SDK
+      unarchive: src="/tmp/google-cloud-sdk.tar.gz"
+                 dest="~/"
+                 copy=no
+                 creates="~/google-cloud-sdk/"
+
+    - name: install Google Cloud SDK
+      lineinfile: dest="~/.zshenv"
+                  line="source ~/google-cloud-sdk/path.zsh.inc"
+
+    - name: download Google App Engine Go SDK
+      get_url: url="https://storage.googleapis.com/appengine-sdks/featured/go_appengine_sdk_linux_amd64-1.9.34.zip"
+               dest="/tmp/go_appengine.zip"
+               force=no
+               checksum="sha1:98ea8ff4c429c2ee288473ffe564c5eaee5ae6d1"
+
+    - name: unarchive Google App Engine Go SDK
+      unarchive: src="/tmp/go_appengine.zip"
+                 dest="~/"
+                 copy=no
+                 creates="~/go_appengine/"
+
+    - name: install Google App Engine Go SDK
+      lineinfile: dest="~/.zshenv"
+                  line="export PATH=$PATH:~/go_appengine"
