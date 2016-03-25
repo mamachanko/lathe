@@ -25,7 +25,6 @@ drop:
 
 provision:
 		figlet -f script provisioning box
-		rm -rf .ansible
 		ansible-galaxy install -r requirements.yaml
 		ansible-playbook playbook.yaml --syntax-check
 		rm -f playbook.retry
@@ -37,5 +36,8 @@ package:
 		vagrant package --output ${BOX_PATH}
 
 release:
-		bumpversion --commit --tag major
+		virtualenv venv
+		. venv/bin/activate && pip install -r requirements.txt
+		. venv/bin/activate && bumpversion --commit --tag major
+		rm -rf venv
 		git push origin master
