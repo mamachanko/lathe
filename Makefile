@@ -18,9 +18,11 @@ box:
 		make drop
 		vagrant box update
 		vagrant up
+		vagrant snapshot save vanilla
 
 drop:
 		vagrant halt
+		vagrant snapshot delete $(vagrant snapshot list)
 		vagrant destroy --force
 
 provision:
@@ -29,6 +31,7 @@ provision:
 		ansible-playbook playbook.yaml --syntax-check
 		rm -f playbook.retry
 		ansible-playbook playbook.yaml
+		vagrant snapshot save provisioned
 
 package:
 		figlet -f script packaging box
