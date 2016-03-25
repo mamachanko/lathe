@@ -1,5 +1,11 @@
+---
 - name: oh-my-zsh
   src: https://github.com/mamachanko/ohmyzsh_plbk/
+
 - name: motd
   src: elao.motd
   version: 2.0
+
+- name: nodejs
+  src: geerlingguy.nodejs
+  version: 2.1.1
