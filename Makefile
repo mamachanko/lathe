@@ -3,7 +3,7 @@ BUILD_DIR=./build
 BOX_NAME=lathe-${LATHE_VERSION}.box
 BOX_PATH=${BUILD_DIR}/${BOX_NAME}
 
-.PHONY: all lathe provision package box test bump drop
+.PHONY: all lathe provision package box drop
 
 all: lathe release
 
@@ -36,9 +36,6 @@ package:
 		figlet -f script ${BOX_NAME}
 		vagrant package --output ${BOX_PATH}
 
-bump:
+release:
 		bumpversion --commit --tag major
 		git push origin master
-
-release:
-		bin/release ${BOX_PATH}
