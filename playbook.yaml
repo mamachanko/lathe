@@ -25,7 +25,8 @@
     - oh-my-zsh
     - role: motd
       become: yes
-    - nodejs
+    - role: nodejs
+      become: yes
 
   tasks:
     - name: install packages
