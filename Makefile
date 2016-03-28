@@ -1,13 +1,8 @@
-LATHE_VERSION=$(shell cat VERSION)
-BUILD_DIR=./build
-BOX_NAME=lathe-${LATHE_VERSION}.box
-BOX_PATH=${BUILD_DIR}/${BOX_NAME}
-
 .PHONY: all lathe provision package box drop
 
 all: lathe release
 
-lathe: box provision bump package 
+lathe: box provision release package 
 		vagrant up
 		bin/check
 		figlet -f script lathe done
@@ -22,7 +17,7 @@ box:
 
 drop:
 		vagrant halt
-		vagrant snapshot delete $(vagrant snapshot list)
+		# vagrant snapshot delete $(vagrant snapshot list)
 		vagrant destroy --force
 
 provision:
@@ -34,9 +29,7 @@ provision:
 		vagrant snapshot save provisioned
 
 package:
-		figlet -f script packaging box
-		figlet -f script ${BOX_NAME}
-		vagrant package --output ${BOX_PATH}
+		./package.sh
 
 release:
 		virtualenv venv
