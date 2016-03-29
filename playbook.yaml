@@ -14,6 +14,13 @@
       - thugletics
     - gae_language: go
     - elao_motd: "A lathe is the only tool that can replicate itself."
+    - nodejs_npm_global_packages:
+      - nodemon
+    - pip_packages:
+      - virtualenv
+      - virtualenvwrapper
+      - watchdog
+      - requests
 
   pre_tasks:
     - name: update apt cache
@@ -68,9 +75,7 @@
       become: yes
       pip: name="{{ item }}"
            state=present
-      with_items:
-        - virtualenv
-        - virtualenvwrapper
+      with_items: "{{ pip_packages }}"
 
     - name: enable bash history complete for arrow keys
       lineinfile: dest=~/.inputrc
