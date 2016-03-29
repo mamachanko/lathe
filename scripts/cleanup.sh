@@ -5,6 +5,7 @@ apt-get -y remove --purge ansible
 apt-add-repository --remove ppa:ansible/ansible
 apt-get autoremove
 apt-get update
+apt-get clean
 
 # Delete unneeded files.
 rm -f /home/vagrant/*.sh

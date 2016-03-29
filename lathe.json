@@ -1,13 +1,7 @@
 {
   "variables": {
-    "ssh_username": "vagrant",
-    "ssh_password": "vagrant",
-    "ssh_port": "22",
-    "ssh_wait_timeout": "90m",
     "disk_size": "81920",
     "vm_name": "lathe",
-    "iso_checksum_type": "SHA256",
-    "iso_checksum": "86aa35a986eba6e5ad30e3d486d57efe6803ae7ea4859b0216953e9e62871131"
   },
   "provisioners": [
     {
@@ -37,17 +31,28 @@
   "builders": [
     {
       "type": "virtualbox-iso",
-      "vm_name": "{{ user `vm_name` }}-{{ .Provider }}",
+      "guest_os_type": "Ubuntu_64",
+      "vm_name": "lathe",
+      "http_directory": "http",
+      "boot_wait": "5s",
       "boot_command": [
-        "<esc><wait>",
-        "<esc><wait>",
         "<enter><wait>",
-        "/install/vmlinuz",
-        " auto=true",
-        " priority=critical",
-        " initrd=/install/initrd.gz",
-        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg",
-        " -- ",
+        "<f6><esc>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs>",
+        "/install/vmlinuz ",
+        "initrd=/install/initrd.gz ",
+        "net.ifnames=0 ",
+        "auto-install/enable=true ",
+        "debconf/priority=critical ",
+        "preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/ubuntu-15.10/preseed.cfg ",
         "<enter>"
       ],
       "disk_size": "{{ user `disk_size` }}",
@@ -58,12 +63,11 @@
         "/Users/max/iso/ubuntu-15.10-server-amd64.iso",
         "http://releases.ubuntu.com/wily/ubuntu-15.10-server-amd64.iso"
       ],
-      "iso_checksum_type": "{{ user `iso_checksum_type` }}",
-      "iso_checksum": "{{ user `iso_checksum` }}",
-      "ssh_username": "{{ user `ssh_username` }}",
-      "ssh_password": "{{ user `ssh_password` }}",
-      "ssh_port": "{{ user `ssh_port` }}",
-      "ssh_wait_timeout": "{{ user `ssh_wait_timeout` }}",
+      "iso_checksum_type": "sha256",
+      "iso_checksum": "86aa35a986eba6e5ad30e3d486d57efe6803ae7ea4859b0216953e9e62871131"
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_wait_timeout": "60m",
       "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "virtualbox_version_file": ".vbox_version",
